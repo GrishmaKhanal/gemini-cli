@@ -3,8 +3,10 @@ import google.generativeai as genai
 import read_and_write
 
 API_KEY = read_and_write.read_from_hidden_file()
+if(API_KEY == ""):
+    API_KEY = read_and_write.write_to_hidden_file()
+
 genai.configure(api_key=API_KEY)
-print(API_KEY)
 model = genai.GenerativeModel(model_name="gemini-1.5-flash-latest")
 
 PROMPT_CASE = "Give output in brief and clean way, with minimal mention to refrences, this is a cli interface for gnome-terminal. \n"

@@ -1,20 +1,20 @@
 import os
 
-change_API = False
 text_shift = 12
 
 # very simple encryption, can change to better if necessary
 def caesar_cipher(message, shift):
-  alphabet = "abcdefghijklmnopqrstuvwxyz"
-  shifted_alphabet = alphabet[shift:] + alphabet[:shift]
-  new_message = ""
-  for char in message.lower():
-    if char.isalpha():
-      index = alphabet.find(char)
-      new_message += shifted_alphabet[index]
-    else:
-      new_message += char
-  return new_message
+    ascii_range = [chr(char) for char in range(32, 127)]
+    shifted_ascii_range = ascii_range[shift:] + ascii_range[:shift]
+    new_message = ""
+    for char in message:
+        if(char in ascii_range):
+            index = ascii_range.index(char)
+            new_message += shifted_ascii_range[index]
+        else:
+            new_message += char
+    
+    return new_message
 
 def write_to_hidden_file():
   hidden_filename = f".store"
@@ -30,14 +30,13 @@ def write_to_hidden_file():
   with open(hidden_filename, "w") as file:
     file.write(content)
     print("API Added")
-    change_API = False
   
   return read_from_hidden_file()
 
 def read_from_hidden_file():
   hidden_filename = f".store"
   # if file not exists, call write
-  if (not os.path.exists(hidden_filename)) or change_API:
+  if (not os.path.exists(hidden_filename)):
     write_to_hidden_file()
 
   with open(hidden_filename, "r") as file:
